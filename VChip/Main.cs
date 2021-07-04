@@ -99,7 +99,7 @@ namespace VChip
 
             for (int i = 1; i <= wordCount; i++)
             {
-                //Range range = document.Content;
+                //Range range = document.Content
                 var w = document.Words[i];
                 string s = w.Text.ToString();
                 //range.Find.ClearFormatting();
