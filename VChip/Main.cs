@@ -45,9 +45,9 @@ namespace VChip
             if (isFileEmpty()) MessageBox.Show("Please fill all the fields.");
             else
             {
-                this.Text = "VignereCipher - Encrypting...";
+                this.Text = "VignereCipher - Decrypting...";
                 //backgroundWorker1.RunWorkerAsync();
-                converting("encrypt");
+                converting("decrypt");
             }
         }
 
@@ -70,24 +70,22 @@ namespace VChip
             else return false;
         }
 
-        private bool IsAWord(string text)
+        private bool IsAlphanumeric(string str)
         {
             //var regex = new Regex(@"\b[\w']+\b");
             var regex = new Regex(@"\b[a-zA-Z]+\b");
-            var match = regex.Match(text);
-            return match.Value.Equals(text);
-        }
-
-        private bool isKeyAlphanumeric(string key)
-        {
-
-            return false;
+            var match = regex.Match(str);
+            return match.Value.Equals(str);
+            
         }
 
         private void converting(string action)
         {
             Microsoft.Office.Interop.Word.Application application = new Microsoft.Office.Interop.Word.Application();
             Document document = application.Documents.Open(pathFileName);
+
+            VignereCipher vigenereCipher = new VignereCipher(txtKeyword.Text);
+
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
             application.Visible = false;
@@ -99,17 +97,26 @@ namespace VChip
 
             for (int i = 1; i <= wordCount; i++)
             {
-                //Range range = document.Content
+                Range range = document.Content;
                 var w = document.Words[i];
                 string s = w.Text.ToString();
-                //range.Find.ClearFormatting();
-                if (!string.IsNullOrWhiteSpace(s.Trim()) && IsAWord(s.Trim()))
+                range.Find.ClearFormatting();
+                if (!string.IsNullOrWhiteSpace(s.Trim()) && IsAlphanumeric(s.Trim()))
                 {
 
                     w.Select();
-                    //Console.WriteLine(s);
-                    if (action.Equals("encrypt")) application.Selection.TypeText(VignereCipher.Encipher(s, keyword));
-                    else application.Selection.TypeText(VignereCipher.Decipher(s, keyword));
+                    //Console.WriteLine(w.Text);
+                    //if (action.Equals("encrypt")) application.Selection.TypeText(VignereCipher.Encipher(s, keyword));
+                    if (action.Equals("encrypt"))
+                    {
+                        application.Selection.TypeText(vigenereCipher.Encrypt(s));
+                        Console.WriteLine($"Next Key Position : {vigenereCipher.nextKeyUsedPosition}");
+                    }
+                    else
+                    {
+                        application.Selection.TypeText(vigenereCipher.Decrypt(s));
+                        Console.WriteLine($"Next Key Position : {vigenereCipher.nextKeyUsedPosition}");
+                    }
                 }
             }
 
@@ -117,6 +124,7 @@ namespace VChip
             string elapsedTimeString = String.Format("{0:00}:{1:00}:{2:00}.{3:00}", ts.Hours, ts.Minutes, ts.Seconds, ts.Milliseconds / 10);
             Console.WriteLine("RunTime (total):" + elapsedTimeString);
             stopWatch.Reset();
+            vigenereCipher.Reset();
         }
 
         

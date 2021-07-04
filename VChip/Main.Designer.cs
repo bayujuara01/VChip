@@ -80,7 +80,7 @@ namespace VChip
             // txtFile
             // 
             this.txtFile.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.txtFile.DefaultText = "";
+            this.txtFile.DefaultText = "G:\\serbuberlin.docx";
             this.txtFile.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
             this.txtFile.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
             this.txtFile.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
@@ -96,6 +96,7 @@ namespace VChip
             this.txtFile.PasswordChar = '\0';
             this.txtFile.PlaceholderText = "";
             this.txtFile.SelectedText = "";
+            this.txtFile.SelectionStart = 19;
             this.txtFile.ShadowDecoration.Parent = this.txtFile;
             this.txtFile.Size = new System.Drawing.Size(326, 45);
             this.txtFile.TabIndex = 2;
